@@ -87,16 +87,18 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
+          removeArticleById(_id);
           this.$message({
             type: 'success',
             message: '删除成功!'
           });
-          
+          //通知父组件删除数据 前端页面不用刷新
+          this.$emit("noticeRemove",_id);
         }).catch(() => {
           this.$message({
             type: 'info',
             message: '已取消删除'
-          });          
+          });         
         });
     },
     getArticle(_id) {

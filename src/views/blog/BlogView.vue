@@ -14,14 +14,14 @@
           <h1 class="me-view-title">{{article.title}}</h1>
           <div class="me-view-author">
             <a class="">
-              <img class="me-view-picture" :src="article.author.avatar"></img>
+              <img class="me-view-picture" :src="article.author.avatar">
             </a>
             <div class="me-view-info">
               <span>{{article.author}}</span>
               <div class="me-view-meta">
                 <span>{{article.createDate | format}}</span>
                 <span>阅读   {{article.viewCounts}}</span>
-                <span>评论   {{article.commentCounts == NULL?0:article.commentCounts}}</span>
+                <span>评论   {{article.commentCounts}}</span>
                 <!--  -->
               </div>
 
@@ -29,7 +29,7 @@
            
             <i v-if="this.article.authorId == this.$store.state.id">
               <el-button @click="editArticle()"
-              style="position: absolute;left: 60%;"
+              style="position: absolute;left: 70%;"
               size="mini"
               round
               icon="el-icon-edit">编辑</el-button>
@@ -67,7 +67,7 @@
               <el-row :gutter="20">
                 <el-col :span="2">
                   <a class="">
-                    <img class="me-view-picture" :src="avatar"></img>
+                    <img class="me-view-picture" :src="avatar">
                   </a>
                 </el-col>
                 <el-col :span="22">
@@ -84,13 +84,16 @@
 
               <el-row :gutter="20">
                 <el-col :span="2" :offset="22">
-                  <el-button type="text" @click="publishComment()">评论</el-button>
+                  
+                      <el-button type="text" @click="publishComment()" icon="el-icon-chat-dot-square" >评论</el-button>
+                
+                  
                 </el-col>
               </el-row>
             </div>
 
             <div class="me-view-comment-title">
-              <span>{{article.commentCounts == NULL?0:article.commentCounts}}条评论</span>
+              <span>{{article.commentCounts}}条评论</span>
             </div>
 
             <commment-item
@@ -100,6 +103,7 @@
               :index="index"
               :rootCommentCounts="comments.length"
               @commentCountsIncrement="commentCountsIncrement"
+              @addContent="addContent"
               :key="c.id">
             </commment-item>
 
@@ -260,6 +264,10 @@ export default {
     commentCountsIncrement() {
       this.article.commentCounts += 1;
     },
+    addContent(c){
+      // this.comment.article.push(c.article);
+      // this.comment.content.push(c.content);
+    }
   },
   components: {
     "markdown-editor": MarkdownEditor,

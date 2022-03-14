@@ -1,6 +1,6 @@
 <template>
   <scroll-page :loading="loading" :offset="offset" :no-data="noData" v-on:load="load">
-    <article-item :_id="a.id" v-for="a in articles" :key="a.id" v-bind="a"></article-item>
+    <article-item :_id="a.id" v-for="a in articles" :key="a.id" v-bind="a" @noticeRemove="removeById"></article-item>
   </scroll-page>
 </template>
 
@@ -72,8 +72,9 @@
       view(id) {
         this.$router.push({path: `/view/${id}`})
       },
-      noticeRemove(id){
-          this.articles.splice(id,1);
+      removeById(_id){
+          this.articles.splice(this.articles.findIndex(item => item.id === _id), 1)
+          //console.log(this.articles)
       },
       getArticles() {
         let that = this

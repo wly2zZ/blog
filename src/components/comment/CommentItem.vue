@@ -2,7 +2,7 @@
   <div class="me-view-comment-item">
     <div class="me-view-comment-author">
       <a class="">
-        <img class="me-view-picture" :src="comment.author.avatar"></img>
+        <img class="me-view-picture" :src="comment.author.avatar"/>
       </a>
       <div class="me-view-info">
         <span class="me-view-nickname">{{comment.author.nickname}}</span>
@@ -19,7 +19,7 @@
         <!--<i class="el-icon-caret-top"></i> 20-->
         <!--</a>-->
         <a class="me-view-comment-tool" @click="showComment(-1,comment.author)">
-          <i class="me-icon-comment"></i>&nbsp; 评论
+          <i class="el-icon-chat-dot-square"></i>&nbsp; 评论
         </a>
       </div>
 
@@ -34,9 +34,9 @@
           </div>
           <div class="me-view-meta">
             <span style="padding-right: 10px">{{c.createDate | format}}</span>
-          <!--  <a class="me-view-comment-tool" @click="showComment(c.id, c.author)">
-              <i class="me-icon-comment"></i>&nbsp;回复
-            </a> -->
+           <a class="me-view-comment-tool" @click="showComment(c.id, c.author)">
+              <i class="el-icon-chat-dot-square"></i>&nbsp;回复
+            </a>
           </div>
 
         </div>
@@ -114,6 +114,8 @@
             }
             that.comment.childrens.unshift(data.data)
             that.$emit('commentCountsIncrement')
+            //通知父组件增加评论内容
+            that.$emit("addContent",content)
             that.showComment(that.commentShowIndex)
           }else{
              that.$message({type: 'error', message: data.msg, showClose: true})
