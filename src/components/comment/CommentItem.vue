@@ -63,12 +63,12 @@
 </template>
 
 <script>
-  import {publishComment} from '@/api/comment'
+import { getCommentsByArticle, publishComment } from "@/api/comment";
 
   export default {
     name: "CommentItem",
     props: {
-      articleId: Number,
+      articleId: String,
       comment: Object,
       index: Number,
       rootCommentCounts: Number
@@ -84,7 +84,7 @@
     methods: {
       showComment(commentShowIndex, toUser) {
         this.reply = this.getEmptyReply()
-
+    
         if (this.commentShowIndex !== commentShowIndex) {
           if (toUser) {
             this.placeholder = `@${toUser.nickname} `
@@ -95,6 +95,7 @@
 
           this.commentShow = true
           this.commentShowIndex = commentShowIndex
+
         } else {
           this.commentShow = false
           this.commentShowIndex = ''
@@ -115,7 +116,7 @@
             that.comment.childrens.unshift(data.data)
             that.$emit('commentCountsIncrement')
             //通知父组件增加评论内容
-            that.$emit("addContent",content)
+            //that.$emit("addContent",that.reply)
             that.showComment(that.commentShowIndex)
           }else{
              that.$message({type: 'error', message: data.msg, showClose: true})
@@ -127,6 +128,30 @@
         })
 
       },
+      getCommentsByArticle() {
+      let that = this;
+      getCommentsByArticle(articleId)
+        .then((data) => {
+          if (data.success) {
+            that.comments = data.data;
+          } else {
+            that.$message({
+              type: "error",
+              message: "评论加载失败",
+              showClose: true,
+            });
+          }
+        })
+        .catch((error) => {
+          if (error !== "error") {
+            that.$message({
+              type: "error",
+              message: "评论加载失败",
+              showClose: true,
+            });
+          }
+        });
+    },
       getEmptyReply() {
         return {
           articleId: this.articleId,

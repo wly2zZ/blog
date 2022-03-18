@@ -82,3 +82,10 @@ export function removeArticleById(id){
     method :'post'
   })
 }
+
+export function showArticle() {
+  return request({
+    url: '/articles/showArticle',
+    method: 'post'
+  })
+}

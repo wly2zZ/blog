@@ -14,14 +14,14 @@
           <h1 class="me-view-title">{{article.title}}</h1>
           <div class="me-view-author">
             <a class="">
-              <img class="me-view-picture" :src="article.author.avatar">
+              <img class="me-view-picture" :src="article.avatar">
             </a>
             <div class="me-view-info">
               <span>{{article.author}}</span>
               <div class="me-view-meta">
                 <span>{{article.createDate | format}}</span>
                 <span>阅读   {{article.viewCounts}}</span>
-                <span>评论   {{article.commentCounts}}</span>
+                <span >评论   {{article.commentCounts}}</span>
                 <!--  -->
               </div>
 
@@ -141,9 +141,7 @@ export default {
         viewCounts: 0,
         summary: "",
         authorId:0,
-        // author: {
-        //   id :""
-        // },
+        // avatar: '', 
         tags: [],
         category: {},
         createDate: "",
@@ -157,8 +155,8 @@ export default {
       comments: [],
       comment: {
         article: {},
-        content: "",
-      },
+        content: ""
+      }
     };
   },
   computed: {
@@ -205,6 +203,7 @@ export default {
       if (!that.comment.content) {
         return;
       }
+      // console.log(this.comment, that.article.id)
       that.comment.article.id = that.article.id;
       let parms = { articleId: that.article.id, content: that.comment.content };
       publishComment(parms, this.$store.state.token)
@@ -216,8 +215,9 @@ export default {
               showClose: true,
             });
             that.comment.content = "";
-            that.comments.unshift(data.data);
+             that.comments.unshift(data.data);
             that.commentCountsIncrement();
+            that.getCommentsByArticle();
           } else {
             that.$message({
               type: "error",
@@ -263,8 +263,10 @@ export default {
     },
     commentCountsIncrement() {
       this.article.commentCounts += 1;
+      //console.log(this.article.commentCounts)
     },
     addContent(c){
+      console.log(c)
       // this.comment.article.push(c.article);
       // this.comment.content.push(c.content);
     }

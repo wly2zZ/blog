@@ -38,6 +38,7 @@ const router = new Router({
           path: '/',
           component: r => require.ensure([], () => r(require('@/views/Index')), 'index')
         },
+        // 
         {
           path: '/log',
           component: r => require.ensure([], () => r(require('@/views/Log')), 'log')
